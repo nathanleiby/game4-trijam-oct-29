@@ -7,6 +7,7 @@ extends Node2D
 
 var playerPos := Vector2(2,2)
 var playerRotation := Vector2.UP
+var ROTATIONS = [Vector2.LEFT, Vector2.RIGHT, Vector2.UP, Vector2.DOWN ]
 var relicPos := Vector2(2,2)
 
 const TILE_SIZE = 32
@@ -18,11 +19,17 @@ func _generatePositions():
 	while newPlayerPos.is_equal_approx(playerPos):
 		newPlayerPos = Vector2(randi_range(0,MAX),randi_range(0,MAX))
 	
+	# random new player rotation
+	var newPlayerRotation = playerRotation
+	while newPlayerRotation.is_equal_approx(playerRotation):
+		newPlayerRotation = ROTATIONS[randi_range(0, ROTATIONS.size()-1)]
+	
 	# random new relic pos, also that != playerPos
 	var newRelicPos = relicPos
 	while newRelicPos.is_equal_approx(playerPos) or newRelicPos.is_equal_approx(relicPos):
 		newRelicPos = Vector2(randi_range(0,MAX),randi_range(0,MAX))
 		
+	playerRotation = newPlayerRotation
 	playerPos = newPlayerPos
 	relicPos = newRelicPos
 

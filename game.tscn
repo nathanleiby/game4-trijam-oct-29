@@ -5,13 +5,39 @@
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_fxbok")
+_puzzleScene = ExtResource("2_owhmh")
 
 [node name="Puzzles" type="Node2D" parent="."]
 
 [node name="Puzzle" parent="Puzzles" instance=ExtResource("2_owhmh")]
 
 [node name="Puzzle2" parent="Puzzles" instance=ExtResource("2_owhmh")]
+visible = false
 position = Vector2(256, 2.08165e-12)
+
+[node name="Puzzle3" parent="Puzzles" instance=ExtResource("2_owhmh")]
+visible = false
+position = Vector2(512, 2.08165e-12)
+
+[node name="Puzzle4" parent="Puzzles" instance=ExtResource("2_owhmh")]
+visible = false
+position = Vector2(768, 2.08165e-12)
+
+[node name="Puzzle5" parent="Puzzles" instance=ExtResource("2_owhmh")]
+visible = false
+position = Vector2(2.08165e-12, 256)
+
+[node name="Puzzle6" parent="Puzzles" instance=ExtResource("2_owhmh")]
+visible = false
+position = Vector2(256, 256)
+
+[node name="Puzzle7" parent="Puzzles" instance=ExtResource("2_owhmh")]
+visible = false
+position = Vector2(512, 256)
+
+[node name="Puzzle8" parent="Puzzles" instance=ExtResource("2_owhmh")]
+visible = false
+position = Vector2(768, 256)
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
