@@ -1,39 +1,39 @@
 extends Node2D
 
-@onready var _player := $Player
-@onready var _playerArrow := $Player/Arrow
-@onready var _relic := $Relic
+@onready var _puzzle: Puzzle = $Puzzle as Puzzle
+@onready var _movesLabel: Label = $Control/VBoxContainer/MovesLabel as Label
+@onready var _relicsLabel: Label = $Control/VBoxContainer/RelicsLabel as Label
 
+var totalMoves := 0
+var relicsCollected := 0
 
-var playerPos := Vector2(0,0)
-var playerRotation := Vector2.UP
-var relicPos := Vector2(1,1)
-
-const TILE_SIZE = 32
-
-func _updatePositions():
-	_player.position = playerPos * TILE_SIZE
-	_playerArrow.rotation = playerRotation.angle()
-	_relic.position = relicPos * TILE_SIZE 
+func _handleRelicCollected():
+	if _puzzle.is_relic_collected():
+		relicsCollected += 1
+		_puzzle.reset()
+	
+func _updateView():
+	_movesLabel.text = "Moves: %d" % totalMoves
+	_relicsLabel.text = "Relics: %d" % relicsCollected
 	
 func _ready():
-	_updatePositions()
-	
+	_updateView()
+
 func _on_left_pressed():
-	playerRotation = playerRotation.rotated(-PI/2)
-	_updatePositions()
+	_puzzle._on_left_pressed()
+	totalMoves += 1
+	_handleRelicCollected()
+	_updateView()
 
 func _on_forward_pressed():
-	print(rotation)
-	playerPos = playerPos + playerRotation
-	_updatePositions()
+	_puzzle._on_forward_pressed()
+	totalMoves += 1
+	_handleRelicCollected()
+	_updateView()
 
 func _on_right_pressed():
-	playerRotation = playerRotation.rotated(PI/2)
-	_updatePositions()
+	_puzzle._on_right_pressed()
+	totalMoves += 1
+	_handleRelicCollected()
+	_updateView()
 
-
-# TODO: Next up 
-# - show direction player is facing. 
-# - do movement relative to player's current facing 
-# - add "win" condition of reaching the relic
