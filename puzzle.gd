@@ -5,10 +5,17 @@ extends Node2D
 @onready var _playerArrow := $Player/Arrow
 @onready var _relic := $Relic
 
-var playerPos := Vector2(2,2)
-var playerRotation := Vector2.UP
 var ROTATIONS = [Vector2.LEFT, Vector2.RIGHT, Vector2.UP, Vector2.DOWN ]
-var relicPos := Vector2(2,2)
+
+const DEFAULT_PLAYER_POS := Vector2(2,3)
+const DEFAULT_RELIC_POS := Vector2(2,1)
+const DEFAULT_PLAYER_ROTATION := Vector2.UP
+
+var playerPos := DEFAULT_PLAYER_POS
+var playerRotation := DEFAULT_PLAYER_ROTATION
+var relicPos := DEFAULT_RELIC_POS
+
+
 
 const TILE_SIZE = 32
 const MAX = 4
@@ -36,8 +43,14 @@ func _generatePositions():
 func is_relic_collected():
 	return playerPos.is_equal_approx(relicPos) # TODO: Vector2i could help here
 
-func reset():
-	_generatePositions()
+func reset(is_new_game = false):
+	if is_new_game:
+		playerPos = DEFAULT_PLAYER_POS
+		playerRotation = DEFAULT_PLAYER_ROTATION
+		relicPos = DEFAULT_RELIC_POS
+	else:
+		_generatePositions()
+		
 	_updateView()
 	
 func _updateView():

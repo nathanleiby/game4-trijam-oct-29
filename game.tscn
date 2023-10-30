@@ -1,7 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://c456fpuxfuvvc"]
+[gd_scene load_steps=5 format=3 uid="uid://c456fpuxfuvvc"]
 
 [ext_resource type="Script" path="res://Game.gd" id="1_fxbok"]
 [ext_resource type="PackedScene" uid="uid://cnl032c7mal2m" path="res://puzzle.tscn" id="2_owhmh"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_h65dx"]
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_n8mxo"]
+font_size = 64
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_fxbok")
@@ -46,16 +52,39 @@ offset_top = 448.0
 offset_right = 1152.0
 offset_bottom = 648.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="VBoxLeft" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+offset_right = 68.0
+offset_bottom = 56.0
 
-[node name="MovesLabel" type="Label" parent="Control/VBoxContainer"]
+[node name="StoryLabel" type="Label" parent="Control/VBoxLeft"]
+layout_mode = 2
+text = "The relic is within reach..."
+label_settings = SubResource("LabelSettings_h65dx")
+
+[node name="TimerLabel" type="Label" parent="Control/VBoxLeft"]
+visible = false
+layout_mode = 2
+text = "30"
+label_settings = SubResource("LabelSettings_h65dx")
+horizontal_alignment = 1
+
+[node name="VBoxRight" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -68.0
+offset_bottom = 56.0
+grow_horizontal = 0
+
+[node name="MovesLabel" type="Label" parent="Control/VBoxRight"]
+visible = false
 layout_mode = 2
 text = "Moves: 0"
 
-[node name="RelicsLabel" type="Label" parent="Control/VBoxContainer"]
+[node name="RelicsLabel" type="Label" parent="Control/VBoxRight"]
+visible = false
 layout_mode = 2
 text = "Relics: 0"
 
@@ -83,6 +112,61 @@ text = "Forward"
 layout_mode = 2
 text = "Right"
 
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="GameOver" type="Control" parent="."]
+process_mode = 2
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1152.0
+offset_bottom = 648.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="GameOver"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.447059, 0.133333, 0.133333, 0.87451)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameOver"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -144.5
+offset_top = -93.0
+offset_right = 144.5
+offset_bottom = 93.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MovesLabel" type="Label" parent="GameOver/VBoxContainer"]
+layout_mode = 2
+text = " Moves: 0"
+label_settings = SubResource("LabelSettings_n8mxo")
+
+[node name="RelicsLabel" type="Label" parent="GameOver/VBoxContainer"]
+layout_mode = 2
+text = " Relics: 0"
+label_settings = SubResource("LabelSettings_n8mxo")
+
+[node name="RestartButton" type="Button" parent="GameOver/VBoxContainer"]
+layout_mode = 2
+text = "Try Again?"
+
 [connection signal="pressed" from="Control/HBoxContainer/Left" to="." method="_on_left_pressed"]
 [connection signal="pressed" from="Control/HBoxContainer/Forward" to="." method="_on_forward_pressed"]
 [connection signal="pressed" from="Control/HBoxContainer/Right" to="." method="_on_right_pressed"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="pressed" from="GameOver/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
