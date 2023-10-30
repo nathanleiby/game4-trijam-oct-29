@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://cn8g1lgpedx15"]
+
+[node name="Player" type="Node2D"]
+position = Vector2(2.08165e-12, 2.08165e-12)
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 32.0
+offset_bottom = 32.0
+color = Color(0.14902, 0.419608, 0.0509804, 1)
+
+[node name="Arrow" type="ColorRect" parent="."]
+offset_left = 16.0
+offset_top = 12.0
+offset_right = 32.0
+offset_bottom = 20.0
+pivot_offset = Vector2(2.08165e-12, 4)
