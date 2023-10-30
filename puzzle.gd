@@ -5,19 +5,20 @@ extends Node2D
 @onready var _playerArrow := $Player/Arrow
 @onready var _relic := $Relic
 
-var playerPos := Vector2(0,0)
+var playerPos := Vector2(2,2)
 var playerRotation := Vector2.UP
-var relicPos := Vector2(1,1)
+var relicPos := Vector2(2,2)
 
 const TILE_SIZE = 32
+const MAX = 4
 
 func _generatePositions():
 	# random new player pos
-	const MAX = 4
 	var newPlayerPos = playerPos
 	while newPlayerPos.is_equal_approx(playerPos):
 		newPlayerPos = Vector2(randi_range(0,MAX),randi_range(0,MAX))
 	
+	# random new relic pos, also that != playerPos
 	var newRelicPos = relicPos
 	while newRelicPos.is_equal_approx(playerPos) or newRelicPos.is_equal_approx(relicPos):
 		newRelicPos = Vector2(randi_range(0,MAX),randi_range(0,MAX))
@@ -47,6 +48,10 @@ func _on_left_pressed():
 
 func _on_forward_pressed():
 	playerPos = playerPos + playerRotation
+	# walls
+	playerPos.x = clamp(playerPos.x, 0, MAX)
+	playerPos.y = clamp(playerPos.y, 0, MAX)
+	
 	_updateView()
 
 func _on_right_pressed():
